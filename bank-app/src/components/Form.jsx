@@ -3,10 +3,7 @@ import { useState } from 'react'
 import SignUp from './SignUp'
 import Login from './Login'
 
-const Form = () => {
-
-  // Get Local Storage
-  const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+const Form = ({accounts}) => {
 
   // Sign Up React States
   const [signUpOpen, setsignUpOpen] = useState(false);
@@ -41,7 +38,6 @@ const Form = () => {
 
   // Error Message React States
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const errors = {
     email: "User does not exist",
@@ -63,8 +59,8 @@ const Form = () => {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
-        setIsSubmitted(true);
-//INPUT CHANGESTATE TO DASHBOARD HERE          
+        // Redirect to Dashboard
+        window.location.href="/dashboard";         
       }
     } else {
       // User not found
