@@ -2,23 +2,28 @@ import React from 'react'
 import Input from './Input'
 import Button from './Button'
 
-const Expenses = ({balance, changeState}) => {
+const Expenses = ({balance, changeState, transactionDetails}) => {
 
     const addExpense = (e) => {
-
         e.preventDefault();
-        balance -= parseFloat(e.target.expenseAmount.value);
+        let exp = parseFloat(e.target.expenseAmount.value)
+
+        // Update balance
+        balance -= exp;
         localStorage.setItem("balance", JSON.stringify(balance));
         changeState(balance.toFixed(3))
-        console.log(e.target.Category.value)
-        console.log(balance)
+
+        // Push expense amount to transactions array
+        let expenseDetail = {Type: "Expense: "+e.target.category.value, Amount: exp.toFixed(3), Balance: balance.toFixed(3)};
+        transactionDetails.push(expenseDetail)
+        localStorage.setItem("transactionDetails", JSON.stringify(transactionDetails));
     }
   return (
     <div>
       <div >
         <h1>Expenses</h1>
         <form onSubmit={addExpense}>
-          <select name="Category">
+          <select name="category">
             <option value="Select">Select Category</option>
             <option value="Food">Food</option>
             <option value="Transportation">Transportation</option>

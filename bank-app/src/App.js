@@ -4,15 +4,14 @@ import Form from './components/Form';
 import Dashboard from './components/Dashboard';
 
 function App() {
-  
-  // Get Local Storage
+
   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 
   return (
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Form accounts={accounts}/>}/>
-      <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/dashboard" element={<Dashboard accounts={accounts}/>}/>
     </Routes>
     </BrowserRouter>
   );

@@ -4,22 +4,38 @@ import Input from './Input';
 import Button from './Button';
 import Expenses from './Expenses';
 
-const Deposit = ({balance, changeState}) => {
+const Deposit = ({balance, changeState, transactionDetails}) => {
 
     // Add deposit amount to balance
     const deposit = (e) => {
-        e.preventDefault();
-        balance += parseFloat(e.target.depositAmount.value);
-        localStorage.setItem("balance", JSON.stringify(balance));
-        changeState(balance.toFixed(3))
-    }
+      e.preventDefault();
+      let dep = parseFloat(e.target.depositAmount.value);
 
-    // Subtract withdraw amount from balance
-    const withdraw = (e) => {
-        e.preventDefault();
-        balance -= parseFloat(e.target.withdrawAmount.value);
-        localStorage.setItem("balance", JSON.stringify(balance));
-        changeState(balance.toFixed(3))
+      // Update balance
+      balance += dep;
+      localStorage.setItem("balance", JSON.stringify(balance));
+      changeState(balance.toFixed(3))
+
+      // Push deposit amount to transactions array
+      let depositDetail = {Type: "Deposit", Amount: dep.toFixed(3), Balance: balance.toFixed(3)};
+      transactionDetails.push(depositDetail)
+      localStorage.setItem("transactionDetails", JSON.stringify(transactionDetails));
+      }
+
+      // Subtract withdraw amount from balance
+      const withdraw = (e) => {
+      e.preventDefault();
+      let withd = parseFloat(e.target.withdrawAmount.value);
+
+      // Update balance
+      balance -= withd;
+      localStorage.setItem("balance", JSON.stringify(balance));
+      changeState(balance.toFixed(3))
+
+      // Push withdrawal amount to transactions array
+      let withdrawDetail = {Type: "Withdrawal", Amount: withd.toFixed(3), Balance: balance.toFixed(3)};
+      transactionDetails.push(withdrawDetail)
+      localStorage.setItem("transactionDetails", JSON.stringify(transactionDetails));
     }
 
   return (
